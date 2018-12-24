@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> CLOUD FILE UPLOAD PROJECT </title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body style="width:100%">
+
+<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <strong style="font-size:28px;margin-left: 24%;" ><font color="brown"> Select file to be uploaded </font></strong><br>
+
+    <input style="margin-top: 2%;margin-left: 27%;" id="file-picker" type="file" name="file" accept=".jpg, .jpeg, .pfd, .png" multiple>
+    <div id="msg" style="padding-top:5px;padding-left:50px; color:green;"></div>
+    <a href={{image_url}} style="margin-top: 2%;margin-left: 27%;" >{{img_txt}}</a>
+    <br>
+	<a href={{del_url}} style="margin-top: 2%;margin-left: 27%; color:red;" > {{del_txt}}</a>
+    <br>
+    <a href={{details_url}} style="margin-top: 2%;margin-left: 27%; color:green" > {{details_txt}}</a>
+    <br>
+    <a href={{gallery_url}} style="margin-top: 2%;margin-left: 27%; color:green" > {{gallery_txt}}</a>
+    <input type="submit" style="margin-top: 2%;margin-left:31%; color:blue;" value="Upload!" id="upload-button">
+</form>
+</body>
+
+<script>
+    $("#file-picker").change(function(){
+        var input = document.getElementById('file-picker');
+        for (var i=0; i<input.files.length; i++)
+        {
+        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+            if ((ext == 'jpg') || (ext == 'png') || (ext=='pdf') || (ext=='jpeg'))
+            {
+                if(input.files[i].size/1024/1024 < 2){
+                $("#msg").text("Files are supported and less than 2mb")
+
+                }
+                else {
+                 $("#msg").text("File is supported but more than 2mb")
+                 document.getElementById("file-picker").value ="";
+                }
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                document.getElementById("file-picker").value ="";
+            }
+        }
+    } );
+</script>
+</html>
